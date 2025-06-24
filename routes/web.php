@@ -26,6 +26,9 @@ Route::middleware(['auth', 'rol:admin'])->group(function () {
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/cities/{state}', [LocationController::class, 'cities'])->name('cities');
     Route::get('/states/{country}', [LocationController::class, 'states'])->name('states');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
 });
 
 Route::middleware(['auth', 'rol:user'])->group(function () {
@@ -33,5 +36,6 @@ Route::middleware(['auth', 'rol:user'])->group(function () {
     Route::get('/users/emails/create', [EmailController::class, 'create'])->name('emails.create');
     Route::post('/users/emails', [EmailController::class, 'store'])->name('emails.store');
 });
+
 
 require __DIR__.'/auth.php';
