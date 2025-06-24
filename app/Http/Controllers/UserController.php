@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\enums\Rol;
 use App\Http\Requests\StoreUserRequest;
+use App\Models\City;
 use App\Models\Country;
+use App\Models\State;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -27,7 +30,7 @@ class UserController extends Controller
         return view('users.create', compact('countries'));
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): RedirectResponse
     {
         User::create($request->validated());
 
@@ -84,10 +87,23 @@ class UserController extends Controller
             ->make(true);
     }
 
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+    }
+
+    public function edit(User $user): View
+    {
+        $user->load('city.state.country'); // Cargar la relación de ciudad si es necesario
+
+        $countries = Country::select('id', 'name')->get();
+
+        // Obetener los estados y las ciudades basados en la informacion del usuario
+        $states = State::where('country_id', $user->city->state->country->id)->select('id', 'name')->get();
+        $cities = City::where('state_id', $user->city->state->id)->select('id', 'name')->get();
+
+        return view('users.edit', compact('user', 'countries', 'states', 'cities'));
     }
 }
