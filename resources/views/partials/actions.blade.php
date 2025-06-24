@@ -5,6 +5,6 @@
         @csrf
         @method('DELETE')
         <button type="submit" class="inline-block px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
-            onclick="return confirm('Are you sure?')">Delete</button>
+            onclick="return confirm('Are you sure you want to delete the user?')">Delete</button>
     </form>
 </div>
