@@ -11,13 +11,13 @@ class EmailController extends Controller
     {
     }
 
-    public function create()
+    public function create(): View
     {
-        //
+        return view('emails.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 }
