@@ -1,8 +1,9 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
         <h1 class="text-2xl font-bold mb-6">Edit User: {{ $user->name }} </h1>
-        <form method="POST" action="#">
+        <form method="POST" action="{{ route('users.update', $user->id) }}">
             @csrf
+            @method('PATCH')
 
             {{-- Identifier --}}
             <div class="mb-4">
@@ -187,8 +188,20 @@
                                 loadOptions(stateSelect, data);
 
                                 // Limpiar y deshabilitar el select de Ciudad cuando se cambia el País
-                                citySelect.innerHTML = '<option value="">Selecciona una ciudad</option>';
+                                citySelect.innerHTML = '<option value="">Select a city</option>';
                                 citySelect.disabled = true;
+
+                                // Si hay un valor antiguo para el estado, seleccionarlo
+                                const oldStateId = '{{ old('state_id') }}';
+                                if (oldStateId) {
+                                    const checkStateInterval = setInterval(() => {
+                                        if (stateSelect.options.length > 1) {
+                                            stateSelect.value = oldStateId;
+                                            stateSelect.dispatchEvent(new Event('change'));
+                                            clearInterval(checkStateInterval);
+                                        }
+                                    }, 100);
+                                }
                             })
                             .catch(error => console.error('Error to get states:', error));
                     } else {
@@ -207,6 +220,17 @@
                             .then(response => response.json())
                             .then(data => {
                                 loadOptions(citySelect, data);
+
+                                // Si hay un valor antiguo para la ciudad, seleccionarlo
+                                const oldCityId = '{{ old('city_id') }}';
+                                if (oldCityId) {
+                                    const checkCityInterval = setInterval(() => {
+                                        if (citySelect.options.length > 1) {
+                                            citySelect.value = oldCityId;
+                                            clearInterval(checkCityInterval);
+                                        }
+                                    }, 100);
+                                }
                             })
                             .catch(error => console.error('Error to get cities: ', error));
                     } else {
@@ -223,32 +247,7 @@
                     countrySelect.dispatchEvent(new Event('change'));
                 }
 
-                // Para el estado y la ciudad, debemos esperar que las opciones se carguen dinámicamente
-                const oldStateId = '{{ old('state_id') }}';
-                const oldCityId = '{{ old('city_id') }}';
-
-                if (oldStateId) {
-                    const checkStateInterval = setInterval(() => {
-                        // Si ya se cargaron los estados
-                        if (stateSelect.options.length > 1) {
-                            stateSelect.value = oldStateId;
-                            // Trigger change para cargar las ciudades
-                            stateSelect.dispatchEvent(new Event(
-                                'change'));
-                            clearInterval(checkStateInterval);
-                        }
-                    }, 100);
-                }
-
-                if (oldCityId) {
-                    const checkCityInterval = setInterval(() => {
-                        // Si ya se cargaron las ciudades
-                        if (citySelect.options.length > 1) {
-                            citySelect.value = oldCityId;
-                            clearInterval(checkCityInterval);
-                        }
-                    }, 100);
-                }
+                
             });
         </script>
     </x-slot>

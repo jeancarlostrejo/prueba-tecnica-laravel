@@ -27,6 +27,7 @@ Route::middleware(['auth', 'rol:admin'])->group(function () {
     Route::get('/cities/{state}', [LocationController::class, 'cities'])->name('cities');
     Route::get('/states/{country}', [LocationController::class, 'states'])->name('states');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
 });

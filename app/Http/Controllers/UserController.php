@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\enums\Rol;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\State;
@@ -105,5 +106,10 @@ class UserController extends Controller
         $cities = City::where('state_id', $user->city->state->id)->select('id', 'name')->get();
 
         return view('users.edit', compact('user', 'countries', 'states', 'cities'));
+    }
+
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        dd($request->validated());
     }
 }
