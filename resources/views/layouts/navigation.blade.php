@@ -15,12 +15,24 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @if (Auth::user()->role === 'admin')
+                     {{-- Navigation links for admin user --}}
+                    @if (Auth::user()->role === \App\Enums\Rol::ADMIN->value)
                         <x-nav-link :href="route('users.create')" :active="request()->routeIs('users.create')">
                             {{ __('Create User') }}
                         </x-nav-link>
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('List of Users') }}
+                        </x-nav-link>
+                    @endif
+
+                    {{-- Navigations links for users --}}
+                    @if (Auth::user()->role === \App\Enums\Rol::USER->value)
+                        <x-nav-link :href="route('emails.create')" :active="request()->routeIs('emails.create')">
+                            {{ __('Create Email') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('emails.index')" :active="request()->routeIs('emails.index')">
+                            {{ __('My Emails') }}
                         </x-nav-link>
                     @endif
                 </div>

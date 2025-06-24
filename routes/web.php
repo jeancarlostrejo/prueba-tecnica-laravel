@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -25,6 +26,12 @@ Route::middleware(['auth', 'rol:admin'])->group(function () {
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/cities/{state}', [LocationController::class, 'cities'])->name('cities');
     Route::get('/states/{country}', [LocationController::class, 'states'])->name('states');
+});
+
+Route::middleware(['auth', 'rol:user'])->group(function () {
+    Route::get('/users/emails', [EmailController::class, 'index'])->name('emails.index');
+    Route::get('/users/emails/create', [EmailController::class, 'create'])->name('emails.create');
+    Route::post('/users/emails', [EmailController::class, 'store'])->name('emails.store');
 });
 
 require __DIR__.'/auth.php';
