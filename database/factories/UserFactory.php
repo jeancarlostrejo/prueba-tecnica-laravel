@@ -24,11 +24,17 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'identifier' => fake()->unique()->numberBetween(1000, 9999999),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'password' => static::$password ??= Hash::make('password'), // Contraseña encriptada
+            'name' => fake()->name(),
+            'phone' => fake()->optional()->numerify('##########'), // Número de celular opcional
+            'dni' => fake()->unique()->numerify('###########'), // Cédula única
+            'birth_date' => fake()->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'), // Fecha de nacimiento (mayor de 18 años)
+            'city_id' => fake()->numberBetween(1, 27), // ID de ciudad, el maximo es 27 porque es el número de ciudades que hay
+            'role' => 'user',
+            'email_verified_at' => fake()->dateTime()->format('Y-m-d H:i:s'), // Fecha de 
+            'remember_token' => Str::random(10), // Token de sesión
         ];
     }
 
@@ -37,7 +43,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
