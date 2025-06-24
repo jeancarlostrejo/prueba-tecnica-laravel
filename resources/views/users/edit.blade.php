@@ -147,8 +147,13 @@
             <div class="flex justify-end">
                 <button type="submit"
                     class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    Save
+                    Update
                 </button>
+
+                <a href="{{ route('users.index') }}"
+                    class="ml-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                    Cancel
+                </a>
             </div>
         </form>
     </div>
