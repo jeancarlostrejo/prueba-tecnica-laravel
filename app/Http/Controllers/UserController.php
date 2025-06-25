@@ -12,7 +12,9 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
@@ -33,7 +35,13 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        User::create($request->validated());
+        $user = User::create($request->validated());
+
+        Log::channel('history')->info('User created successfully', [
+            'user_dni' => $user->dni,
+            'user_name' => $user->name,
+            'created_by' => Auth::user()->name,
+        ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
@@ -92,6 +100,12 @@ class UserController extends Controller
     {
         $user->delete();
 
+        Log::channel('history')->info('User deleted successfully', [
+            'user_dni' => $user->dni,
+            'user_name' => $user->name,
+            'deleted_by' => Auth::user()->name,
+        ]);
+
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 
@@ -118,6 +132,12 @@ class UserController extends Controller
 
         $user->fill($dataValidated);
         $user->save();
+
+        Log::channel('history')->info('User updated successfully', [
+            'user_dni' => $user->dni,
+            'user_name' => $user->name,
+            'updated_by' => Auth::user()->name,
+        ]);
 
         DB::table('sessions')->where('user_id', $user->id)->delete();
 

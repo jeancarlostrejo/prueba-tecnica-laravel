@@ -28,7 +28,7 @@ class EmailsProcess extends Command
      */
     public function handle()
     {
-        $emails = Email::where('status', Status::PENDING)
+        $emails = Email::with('user')->where('status', Status::PENDING)
             ->orderBy('created_at', 'asc')
             ->get();
 

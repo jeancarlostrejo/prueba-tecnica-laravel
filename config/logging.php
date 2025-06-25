@@ -127,6 +127,11 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'history' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/history.log'),
+            'level' => 'info',
+        ]
     ],
 
 ];

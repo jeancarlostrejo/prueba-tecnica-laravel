@@ -7,6 +7,7 @@ use App\enums\Status;
 use App\Models\Email;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendEmail implements ShouldQueue
@@ -30,6 +31,14 @@ class SendEmail implements ShouldQueue
 
         $this->email->update([
             'status' => Status::SENT
+        ]);
+
+        Log::channel('history')->info('Email sent successfully', [
+            'email_id' => $this->email->id,
+            'sender_dni' => $this->email->user->dni,
+            'sender_name' => $this->email->user->name,
+            'subject' => $this->email->subject,
+            'destinatary' => $this->email->destinatary,
         ]);
     }
 }
