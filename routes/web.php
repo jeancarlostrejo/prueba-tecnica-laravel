@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->middleware('rol:admin')->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware('rol:admin')->name('profile.destroy');
+    Route::get('/users/emails', [EmailController::class, 'index'])->middleware('auth')->name('emails.index');
+    Route::get('/users/emails/data', [EmailController::class, 'data'])->name('emails.data');
 });
 
 Route::middleware(['auth', 'rol:admin'])->group(function () {
@@ -33,7 +35,6 @@ Route::middleware(['auth', 'rol:admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'rol:user'])->group(function () {
-    Route::get('/users/emails', [EmailController::class, 'index'])->name('emails.index');
     Route::get('/users/emails/create', [EmailController::class, 'create'])->name('emails.create');
     Route::post('/users/emails', [EmailController::class, 'store'])->name('emails.store');
 });
