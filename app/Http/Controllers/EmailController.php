@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\enums\Rol;
 use App\Http\Requests\StoreEmailRequest;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,21 +14,8 @@ use Yajra\DataTables\DataTables;
 
 class EmailController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-
-        // if (Auth::user()->role === Rol::ADMIN->value) {
-        //     $emails = DB::table('emails')->select('id', 'subject', 'destinatary', 'body', 'status', 'created_at')
-        //         ->orderBy('emails.created_at', 'desc')->get();
-        // } else {
-        //     $emails = DB::table('emails')->where('user_id', Auth::user()->id)
-        //         ->select('id', 'subject', 'destinatary', 'body', 'status', 'created_at')
-        //         ->orderBy('created_at', 'desc');
-        // }
-
-        // dd($emails);
-
-
         return view('emails.index');
     }
 
@@ -36,7 +24,7 @@ class EmailController extends Controller
         return view('emails.create');
     }
 
-    public function store(StoreEmailRequest $request)
+    public function store(StoreEmailRequest $request): RedirectResponse
     {
         Auth::user()->emails()->create($request->validated());
 
