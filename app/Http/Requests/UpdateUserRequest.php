@@ -28,12 +28,13 @@ class UpdateUserRequest extends FormRequest
         return [
             'identifier' => ['required', 'integer', 'unique:users,identifier,' . $this->user->id],
             'password' => [
-                'required',
-                'confirmed',
+                'nullable',
                 Password::min(8)->letters()
                     ->numbers()
                     ->mixedCase()
-                    ->symbols()
+                    ->symbols(),
+                'confirmed',
+
             ],
             'name' => ['required', 'string', 'max:100'],
             'phone' => ['nullable', 'digits:10'],

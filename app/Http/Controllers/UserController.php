@@ -108,8 +108,19 @@ class UserController extends Controller
         return view('users.edit', compact('user', 'countries', 'states', 'cities'));
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        dd($request->validated());
+        $dataValidated = $request->validated();
+
+        if(!$dataValidated['password']) {
+            unset($dataValidated['password']);
+        }
+
+        $user->fill($dataValidated);
+        $user->save();
+
+        DB::table('sessions')->where('user_id', $user->id)->delete();
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 }
