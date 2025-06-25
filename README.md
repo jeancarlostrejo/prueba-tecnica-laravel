@@ -118,3 +118,5 @@ Datos del usuario administrador:
 
 Comando para procesar los correos:
 * Ejecutar en una nueva terminal el comando `php artisan emails:process`
+
+El sistema de registro de logs se lleva ante los cambios a los usuarios (creación, edición y eliminación) y el envío de emails. El archivo de logs se guarda en la caperta `storage/logs/history.log`
