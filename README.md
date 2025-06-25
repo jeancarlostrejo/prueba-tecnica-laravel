@@ -94,3 +94,27 @@ Para visualizar los datos de los usuarios de forma ágil, se requiere la realiza
 -   **Plazo:** Una vez recibida esta prueba tiene 24 horas para realizarla.
 
 Esta prueba tiene como objetivo verificar sus habilidades y mejores prácticas de desarrollo de software.
+
+---
+## PASOS PARA EJECUTAR LA APLICACIÓN
+Se utilizó **Laravel en su versión 12**
+
+1. Descarga o clona el proyecto
+2. Ejecuta el comando **`composer install`**
+3. Ejecuta el comando **`npm install`**
+4. Copia en archivo **.env.example** y renombralo a **.env**
+5. Edita las variables de entorno para la conexión a la base de datos
+6. Ejecuta el comando **`php artisan key:generate`**
+7. Ejecuta el comando **`php artisan migrate:fresh --seed`**
+8. Ejecuta en una nueva terminal **`npm run dev`**
+9. Ejecuta en una nueva terminal **`php artisan serve`**
+10. Ejecuta en una nueva terminal **`php artisan queue:work --queue=emails`**
+11. Visita la url [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+### Información de la aplicación
+Datos del usuario administrador:
+- Correo: admin@test.com
+- Contraseña: password
+
+Comando para procesar los correos:
+* Ejecutar en una nueva terminal el comando `php artisan emails:process`
