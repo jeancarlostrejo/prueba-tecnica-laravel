@@ -19,13 +19,13 @@
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" disabled />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" disabled />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -50,48 +50,49 @@
         {{-- Identifier --}}
         <div>
             <x-input-label for="identifier" :value="__('Identifier')" />
-            <x-text-input id="identifier" name="identifier" type="text" class="mt-1 block w-full" :value="old('identifier', $user->identifier)" required autofocus autocomplete="identifier" />
+            <x-text-input id="identifier" name="identifier" type="text" class="mt-1 block w-full" :value="old('identifier', $user->identifier)" required autofocus autocomplete="identifier" disabled />
             <x-input-error class="mt-2" :messages="$errors->get('identifier')" />
         </div>
 
         {{-- Phone --}}
         <div>
             <x-input-label for="phone" :value="__('Phone')" />
-            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autofocus autocomplete="phone" />
-            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autofocus autocomplete="phone" disabled />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" disabled />
         </div>
 
         {{-- DNI --}}
         <div>
             <x-input-label for="dni" :value="__('Dni')" />
-            <x-text-input id="dni" name="dni" type="text" class="mt-1 block w-full" :value="old('dni', $user->dni)" required autofocus autocomplete="dni" />
+            <x-text-input id="dni" name="dni" type="text" class="mt-1 block w-full" :value="old('dni', $user->dni)" required autofocus autocomplete="dni" disabled />
             <x-input-error class="mt-2" :messages="$errors->get('dni')" />
         </div>
 
         {{-- birth_date --}}
         <div>
             <x-input-label for="birth_date" :value="__('Birth Date')" />
-            <x-text-input id="birth_date" name="birth_date" type="text" class="mt-1 block w-full" :value="old('birth_date', $user->birth_date->format('d-m-Y'))" required autofocus autocomplete="birth_date" />
+            <x-text-input id="birth_date" name="birth_date" type="text" class="mt-1 block w-full" :value="old('birth_date', $user->birth_date->format('d-m-Y'))" required autofocus autocomplete="birth_date" disabled />
             <x-input-error class="mt-2" :messages="$errors->get('birth_date')" />
         </div>
 
         {{-- role --}}
         <div>
             <x-input-label for="role" :value="__('Role')" />
-            <x-text-input id="role" name="role" type="text" class="mt-1 block w-full" :value="old('role', $user->role)" required autofocus autocomplete="role" />
+            <x-text-input id="role" name="role" type="text" class="mt-1 block w-full" :value="old('role', $user->role)" required autofocus autocomplete="role" disabled />
             <x-input-error class="mt-2" :messages="$errors->get('role')" />
         </div>
 
         {{-- city --}}
         <div>
             <x-input-label for="city" :value="__('City')" />
-            <x-text-input id="city" name="city_id" type="text" class="mt-1 block w-full" :value="old('city_id', $user->city->name)" required autofocus autocomplete="city" />
+            <x-text-input id="city" name="city_id" type="text" class="mt-1 block w-full" :value="old('city_id', $user->city->name)" required autofocus autocomplete="city" disabled />
             <x-input-error class="mt-2" :messages="$errors->get('city_id')" />
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
+            @if(Auth::user()->role === \App\Enums\Rol::ADMIN)
+                <x-primary-button>{{ __('Save') }}</x-primary-button>
+            @endif
             @if (session('status') === 'profile-updated')
                 <p
                     x-data="{ show: true }"

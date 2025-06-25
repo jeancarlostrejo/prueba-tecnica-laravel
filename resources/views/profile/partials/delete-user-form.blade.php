@@ -1,4 +1,10 @@
-<section class="space-y-6">
+@if(Auth::user()->role === \App\Enums\Rol::ADMIN)
+
+    <p class="text-red-500">
+        {{ __('You cannot delete your account as an admin. Please contact support if you need assistance.') }}
+    </p>
+    @return;
+    <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Delete Account') }}
@@ -53,3 +59,5 @@
         </form>
     </x-modal>
 </section>
+@endif
+
