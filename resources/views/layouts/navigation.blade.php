@@ -23,6 +23,9 @@
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('List of Users') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('emails.index')" :active="request()->routeIs('emails.index')">
+                            {{ __('Emails') }}
+                        </x-nav-link>
                     @endif
 
                     {{-- Navigations links for users --}}
